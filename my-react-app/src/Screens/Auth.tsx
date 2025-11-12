@@ -71,7 +71,7 @@ function Auth() {
       });
 
       if (response.data.success) {
-        console.log("Signup success");
+toast.success("Signup success");
         setError("");
         setIsLogin(true);
         setUsers([...users, { email, password }]);
