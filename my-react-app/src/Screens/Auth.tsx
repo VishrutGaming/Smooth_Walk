@@ -71,7 +71,7 @@ function Auth() {
       });
 
       if (response.data.success) {
-toast.success("Signup success");
+        toast.success("Signup success");
         setError("");
         setIsLogin(true);
         setUsers([...users, { email, password }]);

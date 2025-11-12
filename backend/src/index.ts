@@ -20,7 +20,6 @@ app.get('/api/users', async (req: Request, res: Response) => {
   }
 });
 
-// POST signup
 app.post('/api/signup', async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -29,7 +28,6 @@ app.post('/api/signup', async (req: Request, res: Response) => {
   }
 
   try {
-    // Check if user already exists
     const [existingUsers] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
 
     // @ts-ignore
