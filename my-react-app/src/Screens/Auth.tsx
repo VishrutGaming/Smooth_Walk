@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import img from "./../assets/loginBg.avif";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,7 +12,7 @@ function Auth() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [users, setUsers] = useState<any[]>([]);
   const [error, setError] = useState("");
-
+const navigate = useNavigate()
   const toggleForm = () => {
     setIsLogin(!isLogin);
     setError("");
@@ -40,6 +41,7 @@ function Auth() {
     if (matchedUser) {
       toast.success("Login Successful");
       setError("");
+      navigate("/Dashboard")
     } else {
       setError("Invalid email or password");
     }

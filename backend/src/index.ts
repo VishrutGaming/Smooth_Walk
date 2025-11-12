@@ -20,6 +20,17 @@ app.get('/api/users', async (req: Request, res: Response) => {
   }
 });
 
+app.get('/api/shoes', async (req: Request, res: Response) => {
+  try {
+    const [rows] = await db.query('SELECT id, name, brand,price,size,color,image_url created_at FROM shoes');
+    res.json({ success: true, shoes: rows });
+  } catch (error) {
+    console.error('Failed to fetch shoes:', error);
+    res.status(500).json({ success: false, message: 'Database error' });
+  }
+});
+
+
 app.post('/api/signup', async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
