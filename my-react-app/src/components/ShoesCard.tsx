@@ -11,6 +11,7 @@ export interface ShoeCardProps {
   color: string;
   imageUrl: string;
   categories: string;
+  fetchcart:()=>void;
 }
 
 const ShoeCard: React.FC<ShoeCardProps> = ({
@@ -21,6 +22,7 @@ const ShoeCard: React.FC<ShoeCardProps> = ({
   color,
   imageUrl,
   categories,
+  fetchcart
 }) => {
   const { user } = useUserDetails();
 
@@ -50,6 +52,7 @@ const ShoeCard: React.FC<ShoeCardProps> = ({
 
     if (response.data.success) {
       toast.success("Item added to cart");
+      fetchcart()
     } else {
       toast.error(response.data.message || "Failed to add item");
     }

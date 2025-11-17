@@ -43,6 +43,7 @@ function Auth() {
     if (matchedUser) {
       toast.success("Login Successful");
       setuser(email);
+      localStorage.setItem("user", JSON.stringify(email));
       setError("");
       navigate("/Dashboard");
     } else {

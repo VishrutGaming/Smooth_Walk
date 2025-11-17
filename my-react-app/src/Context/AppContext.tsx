@@ -8,7 +8,11 @@ type AppTypes = {
 const AppContext = createContext<AppTypes | undefined>(undefined);
 
 export const Appprovider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setuser] = useState<any>();
+ const [user, setuser] = useState<any>(() => {
+  const saved = localStorage.getItem("user");
+  return saved ? JSON.parse(saved) : null;
+});
+
 
   return (
     <AppContext.Provider value={{ user, setuser }}>

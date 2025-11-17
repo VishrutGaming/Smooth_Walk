@@ -5,11 +5,15 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-export default function Header() {
+type cartprop = {
+  cart: any;
+};
+
+export default function Header({ cart }: cartprop) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-gray-500  shadow-md">
+    <header className="bg-gray-500 shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
         <div className="text-2xl font-bold text-[#feab11]">Smooth Walk</div>
 
@@ -28,7 +32,7 @@ export default function Header() {
               <ShoppingCartIcon className="w-6 h-6 text-white hover:text-black-600" />
 
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                10
+                {cart.length}
               </span>
             </div>
           </button>

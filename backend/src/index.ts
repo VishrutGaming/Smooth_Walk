@@ -25,12 +25,29 @@ app.get("/api/users", async (req: Request, res: Response) => {
 app.get("/api/shoes", async (req: Request, res: Response) => {
   try {
     const [rows] = await db.query("SELECT * FROM shoes");
-    res.json({ success: true, shoes: rows });
+    res.json({ success: true, shoes: rows});
   } catch (error) {
     console.error("Failed to fetch shoes:", error);
     res.status(500).json({ success: false, message: "Database error" });
   }
 });
+app.get("/api/cart/:email", async (req: Request, res: Response) => {
+  const email = req.params.email;
+  console.log(email);
+  
+  try {
+    const [rows] = await db.query(
+      "SELECT * FROM cart WHERE user_id = ?", 
+      [email]
+    );
+
+    res.json({ success: true, cart: rows });
+  } catch (error) {
+    console.error("Failed to fetch cart:", error);
+    res.status(500).json({ success: false, message: "Database error" });
+  }
+});
+
 app.post("/api/cart", async (req: Request, res: Response) => {
   const { user_id, name, brand, price, color, image_url, categories, size } =
     req.body;
