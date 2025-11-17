@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Carousel from '../components/ImageSlider'
-import ShoeCard, { type ShoeCardProps } from '../components/ShoesCard';
+import ShoeCard from '../components/ShoesCard';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { useUserDetails } from '../Context/AppContext';
+
 
 interface Shoe {
   id: number;
@@ -13,8 +14,12 @@ interface Shoe {
   size: number;
   color: string;
   image_url: string;
+  categories:string;
 }
 function Dashboard() {
+  const {user}=useUserDetails()
+  console.log(user,"user");
+  
       const [shoes, setShoes] = useState<Shoe[]>([]);
 const images = [
   { id: 1, url: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170" },
@@ -50,6 +55,7 @@ useEffect(() => {
           size={shoe.size}
           color={shoe.color}
           imageUrl={shoe.image_url}
+          categories={shoe.categories}
         />
       ))}
     </div>
@@ -58,3 +64,4 @@ useEffect(() => {
 }
 
 export default Dashboard
+

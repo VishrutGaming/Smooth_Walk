@@ -3,8 +3,10 @@ import img from "./../assets/loginBg.avif";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useUserDetails } from "../Context/AppContext";
 
 function Auth() {
+  const { setuser } = useUserDetails();
   const [isLogin, setIsLogin] = useState(true);
 
   const [email, setEmail] = useState("");
@@ -12,7 +14,7 @@ function Auth() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [users, setUsers] = useState<any[]>([]);
   const [error, setError] = useState("");
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const toggleForm = () => {
     setIsLogin(!isLogin);
     setError("");
@@ -40,8 +42,9 @@ const navigate = useNavigate()
 
     if (matchedUser) {
       toast.success("Login Successful");
+      setuser(email);
       setError("");
-      navigate("/Dashboard")
+      navigate("/Dashboard");
     } else {
       setError("Invalid email or password");
     }
@@ -85,12 +88,13 @@ const navigate = useNavigate()
 
   return (
     <div className="h-screen flex">
-      <div
-        className="w-full bg-cover bg-no-repeat bg-center"
-        style={{ backgroundImage: `url(${img})` }}
-      ></div>
+    <div
+  className="hidden md:block w-full bg-cover bg-no-repeat bg-center"
+  style={{ backgroundImage: `url(${img})` }}
+></div>
 
-      <div className="w-1/2 flex flex-col bg-gray-500 p-10 h-full gap-8">
+
+      <div className="w-full md:w-1/2 flex flex-col bg-gray-500 p-10 h-full gap-8">
         <div className="flex justify-center items-center mb-8">
           <h1 className="text-4xl sm:text-5xl md:text-6xl text-[#feab11] font-extrabold tracking-wider drop-shadow-lg whitespace-nowrap">
             Smooth Walk
