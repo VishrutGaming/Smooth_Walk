@@ -32,7 +32,7 @@ export default function Header({ cart }: cartprop) {
               <ShoppingCartIcon className="w-6 h-6 text-white hover:text-black-600" />
 
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                {cart.length}
+                {cart.length??0}
               </span>
             </div>
           </button>
@@ -66,7 +66,7 @@ export default function Header({ cart }: cartprop) {
             <div className="relative">
               <ShoppingCartIcon className="w-6 h-6 text-gray-700 hover:text-[#feab11]" />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                10
+               {cart.length??0}
               </span>
             </div>
           </button>
