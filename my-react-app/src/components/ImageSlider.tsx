@@ -60,7 +60,7 @@ const Carousel: React.FC<CarouselProps> = ({ images, autoSlideInterval = 3000 })
             key={image.id}
             src={image.url}
             alt={`Slide ${image.id}`}
-            className="w-full flex-shrink-0 object-cover h-64 md:h-96"
+            className="w-full shrink-0 object-cover h-64 md:h-96"
           />
         ))}
       </div>

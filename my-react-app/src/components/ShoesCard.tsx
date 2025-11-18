@@ -63,7 +63,7 @@ const ShoeCard: React.FC<ShoeCardProps> = ({
 }
   return (
     <div className="max-w-xs bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-      <img src={imageUrl} alt={name} className="w-full h-48 object-cover" />
+      <img src={imageUrl} alt={name} className="w-full h-48 object-contain" />
       <div className="p-4">
         <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
         <p className="text-gray-600 text-sm">{brand}</p>
