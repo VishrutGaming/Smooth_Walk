@@ -24,6 +24,13 @@ function Dashboard() {
   const [opencart, setopencart] = useState<boolean>(false);
   const [shoes, setShoes] = useState<Shoe[]>([]);
   const [cart, setcart] = useState<any[]>([]);
+  const [itemsWithPrice, setitemsWithPrice] = useState<{
+    totalItems: number;
+    totalPrice: number;
+  }>({
+    totalItems: 0,
+    totalPrice: 0,
+  });
   const images = [
     {
       id: 1,
@@ -49,24 +56,27 @@ function Dashboard() {
         `http://localhost:5000/api/cart/${user}`
       );
       setcart(response.data.cart);
-      console.log(response.data.cart, "cart");
+      console.log(response.data, "cart");
+      setitemsWithPrice({
+        totalItems: response.data.totalItems,
+        totalPrice: response.data.totalPrice,
+      });
     } catch (err: any) {
       console.log("Error fetching users");
     }
   };
-  const handelDelete = async (item:any) =>{
-    try{
-      const response = await axios.delete(`http://localhost:5000/api/cart/delete/${item.id}`)
-      console.log("response",response);
-      fetchcart()
-      toast.success("succefully deleted the item")
-      
-    }catch(error){
-      toast.error("failed to delete the item ")
+  const handelDelete = async (item: any) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/cart/delete/${item.id}`
+      );
+      console.log("response", response);
+      fetchcart();
+      toast.success("succefully deleted the item");
+    } catch (error) {
+      toast.error("failed to delete the item ");
     }
-
-
-  }
+  };
 
   useEffect(() => {
     fetchUsers();
@@ -76,7 +86,8 @@ function Dashboard() {
     <div>
       <Header setopencart={setopencart} cart={cart} />
       {opencart ? (
-        <div className="flex justify-between px-10 py-6">
+       <div className="flex flex-col md:flex-row justify-between px-4 md:px-10 py-6 gap-6">
+
           <div className="w-2/3">
             {cart.map((item) => (
               <CartView
@@ -86,12 +97,15 @@ function Dashboard() {
                 price={item.price}
                 size={item.size}
                 inStock={true}
-                onDelete={()=>handelDelete(item)}
+                onDelete={() => handelDelete(item)}
               />
             ))}
           </div>
           <div>
-            <CartSummary totalItems={2} totalPrice={233} />
+            <CartSummary
+              totalItems={itemsWithPrice?.totalItems}
+              totalPrice={itemsWithPrice?.totalPrice}
+            />
           </div>
         </div>
       ) : (

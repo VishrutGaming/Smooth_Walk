@@ -68,7 +68,7 @@ const ShoeCard: React.FC<ShoeCardProps> = ({
         <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
         <p className="text-gray-600 text-sm">{brand}</p>
         <p className="text-gray-700 font-bold mt-2">
-          ${Number(price).toFixed(2)}
+          ₹{Number(price).toFixed(2)}
         </p>
         <p className="text-gray-500 text-sm">Size: {size}</p>
         <p className="text-gray-500 text-sm">Color: {color}</p>

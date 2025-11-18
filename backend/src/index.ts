@@ -53,16 +53,33 @@ app.get("/api/cart/:email", async (req: Request, res: Response) => {
   console.log(email);
 
   try {
-    const [rows] = await db.query("SELECT * FROM cart WHERE user_id = ?", [
+    const [rows]: any = await db.query("SELECT * FROM cart WHERE user_id = ?", [
       email,
     ]);
 
-    res.json({ success: true, cart: rows });
+    // 🧮 Count of items
+    const totalItems = rows.length;
+
+    // 🧮 Total Price
+    const totalPrice = rows.reduce((sum: number, item: any) => {
+      return sum + parseFloat(item.price);
+    }, 0);
+
+    res.json({
+      success: true,
+      cart: rows,
+      totalItems,
+      totalPrice,
+    });
+
+    console.log(rows, "rows");
+
   } catch (error) {
     console.error("Failed to fetch cart:", error);
     res.status(500).json({ success: false, message: "Database error" });
   }
 });
+
 
 app.post("/api/cart", async (req: Request, res: Response) => {
   const { user_id, name, brand, price, color, image_url, categories, size } =

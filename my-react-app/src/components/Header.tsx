@@ -65,7 +65,7 @@ export default function Header({ cart,setopencart }: cartprop) {
 
           <button className="text-gray-700 hover:text-[#feab11]">
             <div className="relative">
-              <ShoppingCartIcon className="w-6 h-6 text-gray-700 hover:text-[#feab11]" />
+              <ShoppingCartIcon onClick={()=>setopencart((pre:any)=>!pre)} className="w-6 h-6 text-gray-700 hover:text-[#feab11]" />
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
                {cart.length??0}
               </span>
