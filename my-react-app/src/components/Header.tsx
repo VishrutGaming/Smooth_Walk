@@ -7,9 +7,10 @@ import {
 
 type cartprop = {
   cart: any;
+  setopencart:any
 };
 
-export default function Header({ cart }: cartprop) {
+export default function Header({ cart,setopencart }: cartprop) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -28,8 +29,8 @@ export default function Header({ cart }: cartprop) {
             Kids
           </a>
           <button className="text-white hover:text-black-600">
-            <div className="relative">
-              <ShoppingCartIcon className="w-6 h-6 text-white hover:text-black-600" />
+            <div className="relative cursor-pointer">
+              <ShoppingCartIcon onClick={()=>setopencart((pre:any)=>!pre)} className="w-6 h-6 text-white hover:text-black-600" />
 
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
                 {cart.length??0}
