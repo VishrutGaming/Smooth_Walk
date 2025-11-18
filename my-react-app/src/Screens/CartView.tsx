@@ -21,7 +21,7 @@ const CartView: React.FC<CartItemProps> = ({
 }) => {
   return (
     <div className="flex border-b py-6 gap-6">
-      <img src={image} className="w-40 h-40 object-cover rounded" />
+      <img src={image} className="w-40 h-40 object-contain rounded" />
 
       <div className="flex-1">
         <h2 className="text-lg font-semibold">{title}</h2>

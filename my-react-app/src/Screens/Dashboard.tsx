@@ -6,6 +6,7 @@ import axios from "axios";
 import { useUserDetails } from "../Context/AppContext";
 import CartView from "./CartView";
 import CartSummary from "./CartSummary";
+import toast from "react-hot-toast";
 
 interface Shoe {
   id: number;
@@ -53,6 +54,19 @@ function Dashboard() {
       console.log("Error fetching users");
     }
   };
+  const handelDelete = async (item:any) =>{
+    try{
+      const response = await axios.delete(`http://localhost:5000/api/cart/delete/${item.id}`)
+      console.log("response",response);
+      fetchcart()
+      toast.success("succefully deleted the item")
+      
+    }catch(error){
+      toast.error("failed to delete the item ")
+    }
+
+
+  }
 
   useEffect(() => {
     fetchUsers();
@@ -60,8 +74,27 @@ function Dashboard() {
   }, []);
   return (
     <div>
-      <Header  setopencart={setopencart} cart={cart} />
+      <Header setopencart={setopencart} cart={cart} />
       {opencart ? (
+        <div className="flex justify-between px-10 py-6">
+          <div className="w-2/3">
+            {cart.map((item) => (
+              <CartView
+                key={item.id}
+                image={item.image_url}
+                title={item.name}
+                price={item.price}
+                size={item.size}
+                inStock={true}
+                onDelete={()=>handelDelete(item)}
+              />
+            ))}
+          </div>
+          <div>
+            <CartSummary totalItems={2} totalPrice={233} />
+          </div>
+        </div>
+      ) : (
         <>
           <div className="p-6">
             <Carousel images={images} autoSlideInterval={2000} />
@@ -82,28 +115,6 @@ function Dashboard() {
             ))}
           </div>
         </>
-      ) : (
-              <div className="flex justify-between px-10 py-6">
-          
-          <div className="w-2/3">
-            {cart.map((item) => (
-              <CartView
-                key={item.id}
-                image={item.image_url}
-                title={item.name}
-                price={item.price}
-                size={item.size}
-                inStock={true}
-                onDelete={() => {
-                  console.log("deleted");
-                }}
-              />
-            ))}
-          </div>
-   <div >
-          <CartSummary totalItems={2} totalPrice={233} /></div>
-        </div>
-
       )}
     </div>
   );

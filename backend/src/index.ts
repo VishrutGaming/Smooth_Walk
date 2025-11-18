@@ -25,21 +25,37 @@ app.get("/api/users", async (req: Request, res: Response) => {
 app.get("/api/shoes", async (req: Request, res: Response) => {
   try {
     const [rows] = await db.query("SELECT * FROM shoes");
-    res.json({ success: true, shoes: rows});
+    res.json({ success: true, shoes: rows });
   } catch (error) {
     console.error("Failed to fetch shoes:", error);
     res.status(500).json({ success: false, message: "Database error" });
   }
 });
+app.delete("/api/cart/delete/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  try {
+    const [result] = await db.query("DELETE FROM cart WHERE id = ?", [id]);
+
+   
+     
+    
+
+    res.json({ success: true, message: "Item deleted successfully" });
+  } catch (error) {
+    console.error("Failed to delete cart:", error);
+    res.status(500).json({ success: false, message: "Database error" });
+  }
+});
+
 app.get("/api/cart/:email", async (req: Request, res: Response) => {
   const email = req.params.email;
   console.log(email);
-  
+
   try {
-    const [rows] = await db.query(
-      "SELECT * FROM cart WHERE user_id = ?", 
-      [email]
-    );
+    const [rows] = await db.query("SELECT * FROM cart WHERE user_id = ?", [
+      email,
+    ]);
 
     res.json({ success: true, cart: rows });
   } catch (error) {
