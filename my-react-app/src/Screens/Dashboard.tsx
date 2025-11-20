@@ -56,7 +56,6 @@ function Dashboard() {
         `http://localhost:5000/api/cart/${user}`
       );
       setcart(response.data.cart);
-      console.log(response.data, "cart");
       setitemsWithPrice({
         totalItems: response.data.totalItems,
         totalPrice: response.data.totalPrice,
@@ -65,6 +64,9 @@ function Dashboard() {
       console.log("Error fetching users");
     }
   };
+  useEffect(() => {
+    console.log("Cart", cart);
+  }, [cart]);
   const handelDelete = async (item: any) => {
     try {
       const response = await axios.delete(
@@ -86,28 +88,46 @@ function Dashboard() {
     <div>
       <Header setopencart={setopencart} cart={cart} />
       {opencart ? (
-       <div className="flex flex-col md:flex-row justify-between px-4 md:px-10 py-6 gap-6">
+      <div
+  className={`flex flex-col md:flex-row px-4 md:px-10 py-6 gap-6
+    ${cart.length === 0 ? "justify-center items-center min-h-screen" : "justify-between"}
+  `}
+>
+  {cart.length === 0 ? (
+    <div className="flex flex-col items-center justify-center">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/891/891462.png"
+        alt="Delivery Truck"
+        className="w-32 mx-auto mb-5 animate-float transition-transform duration-300 hover:scale-110"
+      />
+      <p className="text-gray-600 text-lg font-semibold">Your cart is empty</p>
+    </div>
+  ) : (
+    <>
+      <div className="w-2/3">
+        {cart.map((item) => (
+          <CartView
+            key={item.id}
+            image={item.image_url}
+            title={item.name}
+            price={item.price}
+            size={item.size}
+            inStock={true}
+            onDelete={() => handelDelete(item)}
+          />
+        ))}
+      </div>
 
-          <div className="w-2/3">
-            {cart.map((item) => (
-              <CartView
-                key={item.id}
-                image={item.image_url}
-                title={item.name}
-                price={item.price}
-                size={item.size}
-                inStock={true}
-                onDelete={() => handelDelete(item)}
-              />
-            ))}
-          </div>
-          <div>
-            <CartSummary
-              totalItems={itemsWithPrice?.totalItems}
-              totalPrice={itemsWithPrice?.totalPrice}
-            />
-          </div>
-        </div>
+      <div>
+        <CartSummary
+          totalItems={itemsWithPrice?.totalItems}
+          totalPrice={itemsWithPrice?.totalPrice}
+        />
+      </div>
+    </>
+  )}
+</div>
+
       ) : (
         <>
           <div className="p-6">
