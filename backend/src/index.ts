@@ -8,7 +8,11 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: ["http://localhost:5173", "https://smooth-walk.onrender.com"],
+  origin: [
+    "http://localhost:5173",
+    "https://smooth-walk.onrender.com",
+    "https://willowy-daffodil-a1d520.netlify.app"  // ✅ Add Netlify domain
+  ],
   methods: ["GET", "POST", "DELETE"],
   credentials: true
 }));
