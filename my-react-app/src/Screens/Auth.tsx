@@ -30,6 +30,8 @@ function Auth() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        console.log("url",(`${API}/api/users`));
+        
         const response = await axios.get(`${API}/api/users`);
         setUsers(response.data.users);
       } catch (err: any) {

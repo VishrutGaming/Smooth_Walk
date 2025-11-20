@@ -7,7 +7,12 @@ import { db } from "./db";
 dotenv.config();
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173", "https://smooth-walk.onrender.com"],
+  methods: ["GET", "POST", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // GET all users
