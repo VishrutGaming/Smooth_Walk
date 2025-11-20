@@ -15,6 +15,9 @@ function Auth() {
   const [users, setUsers] = useState<any[]>([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const API = import.meta.env.VITE_API_URL;
+
   const toggleForm = () => {
     setIsLogin(!isLogin);
     setError("");
@@ -23,18 +26,20 @@ function Auth() {
     setConfirmPassword("");
   };
 
+  // Fetch all users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users");
+        const response = await axios.get(`${API}/api/users`);
         setUsers(response.data.users);
       } catch (err: any) {
-        console.log("Error fetching users");
+        console.log("Error fetching users:", err);
       }
     };
     fetchUsers();
-  }, []);
+  }, [API]);
 
+  // Login
   const handleLogin = () => {
     const matchedUser = users.find(
       (user) => user.email === email && user.password === password
@@ -51,6 +56,7 @@ function Auth() {
     }
   };
 
+  // Signup
   const handleSignup = async () => {
     setError("");
 
@@ -71,29 +77,28 @@ function Auth() {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/signup", {
+      const response = await axios.post(`${API}/api/signup`, {
         email,
         password,
       });
 
       if (response.data.success) {
-        toast.success("Signup success");
-        setError("");
-        setIsLogin(true);
+        toast.success("Signup successful");
         setUsers([...users, { email, password }]);
+        setIsLogin(true);
       }
     } catch (err: any) {
+      console.log(err);
       setError(err.response?.data?.message || "Signup failed");
     }
   };
 
   return (
     <div className="h-screen flex">
-    <div
-  className="hidden md:block w-full bg-cover bg-no-repeat bg-center"
-  style={{ backgroundImage: `url(${img})` }}
-></div>
-
+      <div
+        className="hidden md:block w-full bg-cover bg-no-repeat bg-center"
+        style={{ backgroundImage: `url(${img})` }}
+      ></div>
 
       <div className="w-full md:w-1/2 flex flex-col bg-gray-500 p-10 h-full gap-8">
         <div className="flex justify-center items-center mb-8">
