@@ -1,7 +1,8 @@
 import express, { type Request, type Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { db } from "../db";
+import { db } from "./db";
+
 
 dotenv.config();
 const app = express();
@@ -13,7 +14,7 @@ app.use(express.json());
 app.get("/api/users", async (req: Request, res: Response) => {
   try {
     const [rows] = await db.query(
-      "SELECT id, email, password, created_at FROM users"
+      "SELECT id, email, password FROM users"
     );
     res.json({ success: true, users: rows });
   } catch (error) {
