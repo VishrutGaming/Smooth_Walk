@@ -25,7 +25,7 @@ const ShoeCard: React.FC<ShoeCardProps> = ({
   fetchcart
 }) => {
   const { user } = useUserDetails();
-const API = import.meta.env.BASE_URL
+  const API = import.meta.env.VITE_API_URL;
  async function insertCart() {
   try {
     if (!user) {
