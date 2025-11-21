@@ -25,7 +25,7 @@ const ShoeCard: React.FC<ShoeCardProps> = ({
   fetchcart
 }) => {
   const { user } = useUserDetails();
-
+const API = import.meta.env.BASE_URL
  async function insertCart() {
   try {
     if (!user) {
@@ -46,7 +46,7 @@ const ShoeCard: React.FC<ShoeCardProps> = ({
     };
 
     const response = await axios.post(
-      "http://localhost:5000/api/cart",
+      `${API}/api/cart`,
       payload
     );
 
