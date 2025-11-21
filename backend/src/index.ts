@@ -10,7 +10,7 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    /\.netlify\.app$/,
+    "https://smmothwalk-2f0ec.web.app/",
     "https://smooth-walk.onrender.com"
   ],
   methods: ["GET", "POST", "DELETE", "PUT"],
