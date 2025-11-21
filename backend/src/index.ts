@@ -11,9 +11,9 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://smooth-walk.onrender.com",
-    "https://willowy-daffodil-a1d520.netlify.app"  // ✅ Add Netlify domain
+    "https://unrivaled-conkies-bfbb6f.netlify.app"   // ← YOUR REAL FRONTEND
   ],
-  methods: ["GET", "POST", "DELETE"],
+  methods: ["GET", "POST", "DELETE", "PUT"],
   credentials: true
 }));
 
