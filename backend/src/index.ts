@@ -130,7 +130,7 @@ app.post("/api/signup", async (req: Request, res: Response) => {
 
     // Insert new user
     await db.query(
-      "INSERT INTO users (email, password, created_at) VALUES (?, ?, NOW())",
+      "INSERT INTO users (email, password) VALUES (?, ?)",
       [email, password]
     );
 
