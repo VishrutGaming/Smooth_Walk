@@ -11,7 +11,7 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://smooth-walk.onrender.com",
-    "https://unrivaled-conkies-bfbb6f.netlify.app"   // ← YOUR REAL FRONTEND
+    "https://mellifluous-peony-57851c.netlify.app/"   // ← YOUR REAL FRONTEND
   ],
   methods: ["GET", "POST", "DELETE", "PUT"],
   credentials: true
