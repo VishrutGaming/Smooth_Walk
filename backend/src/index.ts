@@ -96,7 +96,7 @@ app.post("/api/cart", async (req: Request, res: Response) => {
     req.body;
   try {
     await db.query(
-      "INSERT INTO cart (user_id,name,brand,price,color,image_url,categories,size, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())",
+      "INSERT INTO cart (user_id,name,brand,price,color,image_url,categories,size) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       [user_id, name, brand, price, color, image_url, categories, size]
     );
     res.json({ success: true, message: "cart insert successfully" });
