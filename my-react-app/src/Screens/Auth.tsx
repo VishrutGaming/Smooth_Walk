@@ -17,6 +17,8 @@ function Auth() {
   const navigate = useNavigate();
 
   const API = import.meta.env.VITE_API_URL;
+  console.log(API,"api url");
+  
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
@@ -32,8 +34,10 @@ function Auth() {
       try {
         console.log("url",(`${API}/api/users`));
         
-        const response = await axios.get(`${API}/api/users`);
+        const response = await axios.get(`http://localhost:5000/api/users`);
         setUsers(response.data.users);
+        console.log(response.data.users,"users data");
+        
       } catch (err: any) {
         console.log("Error fetching users:", err);
       }

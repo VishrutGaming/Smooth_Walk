@@ -2,20 +2,29 @@ import express, { type Request, type Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { db } from "./db";
+import { log } from "console";
 
 
 dotenv.config();
 const app = express();
-
+log(process.env.FRONTEND_URL,"frontend url");
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://smmothwalk-2f0ec.web.app",
-    "https://smooth-walk.onrender.com"
-  ],
-  methods: ["GET", "POST", "DELETE", "PUT"],
-  credentials: true
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      process.env.FRONTEND_URL,
+     
+    ];
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
 }));
+
 
 app.use(express.json());
 
