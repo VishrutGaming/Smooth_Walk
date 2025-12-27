@@ -76,10 +76,8 @@ app.get("/api/cart/:email", async (req: Request, res: Response) => {
       email,
     ]);
 
-    // 🧮 Count of items
     const totalItems = rows.length;
 
-    // 🧮 Total Price
     const totalPrice = rows.reduce((sum: number, item: any) => {
       return sum + parseFloat(item.price);
     }, 0);

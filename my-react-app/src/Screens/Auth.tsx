@@ -9,35 +9,41 @@ function Auth() {
   const { setuser } = useUserDetails();
   const [isLogin, setIsLogin] = useState(true);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    error: "",
+  });
+
   const [users, setUsers] = useState<any[]>([]);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const API = import.meta.env.VITE_API_URL;
-  console.log(API,"api url");
-  
+  console.log(API, "api url");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
-    setError("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+    setForm({
+      email: "",
+      password: "",
+      confirmPassword: "",
+      error: "",
+    });
   };
 
-  // Fetch all users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        console.log("url",(`${API}/api/users`));
-        
-        const response = await axios.get(`http://localhost:5000/api/users`);
+        console.log("url", `${API}/api/users`);
+        const response = await axios.get(`${API}/api/users`);
         setUsers(response.data.users);
-        console.log(response.data.users,"users data");
-        
+        console.log(response.data.users, "users data");
       } catch (err: any) {
         console.log("Error fetching users:", err);
       }
@@ -45,40 +51,39 @@ function Auth() {
     fetchUsers();
   }, [API]);
 
-  // Login
   const handleLogin = () => {
     const matchedUser = users.find(
-      (user) => user.email === email && user.password === password
+      (user) =>
+        user.email === form.email && user.password === form.password
     );
 
     if (matchedUser) {
       toast.success("Login Successful");
-      setuser(email);
-      localStorage.setItem("user", JSON.stringify(email));
-      setError("");
+      setuser(form.email);
+      localStorage.setItem("user", JSON.stringify(form.email));
+      setForm((p) => ({ ...p, error: "" }));
       navigate("/Dashboard");
     } else {
-      setError("Invalid email or password");
+      setForm((p) => ({ ...p, error: "Invalid email or password" }));
     }
   };
 
-  // Signup
   const handleSignup = async () => {
-    setError("");
+    const { email, password, confirmPassword } = form;
 
     if (!email || !password || !confirmPassword) {
-      setError("All fields are required");
+      setForm((p) => ({ ...p, error: "All fields are required" }));
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setForm((p) => ({ ...p, error: "Passwords do not match" }));
       return;
     }
 
     const emailExists = users.find((user) => user.email === email);
     if (emailExists) {
-      setError("Email already exists");
+      setForm((p) => ({ ...p, error: "Email already exists" }));
       return;
     }
 
@@ -92,10 +97,19 @@ function Auth() {
         toast.success("Signup successful");
         setUsers([...users, { email, password }]);
         setIsLogin(true);
+        setForm({
+          email: "",
+          password: "",
+          confirmPassword: "",
+          error: "",
+        });
       }
     } catch (err: any) {
       console.log(err);
-      setError(err.response?.data?.message || "Signup failed");
+      setForm((p) => ({
+        ...p,
+        error: err.response?.data?.message || "Signup failed",
+      }));
     }
   };
 
@@ -122,32 +136,35 @@ function Auth() {
 
           <div className="mt-3 flex flex-col gap-5">
             <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={form.email}
+              onChange={handleChange}
               type="text"
               className="w-full p-3 rounded-lg bg-gray-900 text-amber-50 placeholder-amber-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-400"
               placeholder="Enter email"
             />
 
             <input
+              name="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={form.password}
+              onChange={handleChange}
               className="w-full p-3 rounded-lg bg-gray-900 text-amber-50 placeholder-amber-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-400"
               placeholder="Enter password"
             />
 
             {!isLogin && (
               <input
+                name="confirmPassword"
                 type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={form.confirmPassword}
+                onChange={handleChange}
                 className="w-full p-3 rounded-lg bg-gray-900 text-amber-50 placeholder-amber-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-400"
                 placeholder="Confirm password"
               />
             )}
 
-            {error && <p className="text-red-500">{error}</p>}
+            {form.error && <p className="text-red-500">{form.error}</p>}
 
             <button
               onClick={isLogin ? handleLogin : handleSignup}
